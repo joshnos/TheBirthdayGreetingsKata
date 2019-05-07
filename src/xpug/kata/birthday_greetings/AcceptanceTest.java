@@ -50,7 +50,8 @@ public class AcceptanceTest {
 	private void startBirthdayServiceFor(String employeeFileName, String date) throws Exception {
 		BirthdayService service = new BirthdayService();
 		EmailService mail = new SMTPMailService("localhost", NONSTANDARD_PORT);
-		service.sendGreetings(employeeFileName, new OurDate(date), mail);
+		EmployeeRepository repository = new FileEmployeeRepository(employeeFileName);
+		service.sendGreetings(repository, new OurDate(date), mail);
 		emailIterator = server.getReceivedEmail();
 	}
 	
