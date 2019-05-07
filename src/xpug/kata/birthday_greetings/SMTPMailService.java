@@ -25,9 +25,10 @@ public class SMTPMailService implements EmailService {
 	 * @see xpug.kata.birthday_greetings.EmailService#sendMessage(java.lang.String, xpug.kata.birthday_greetings.Employee)
 	 */
 	@Override
-	public void sendMessage(String sender, Employee employee)
+	public void sendMessage(Greetings greetings)
 			throws AddressException, MessagingException {
-		
+		Employee employee = greetings.getEmployee();
+		String sender = greetings.getSender();
 		String receiver = employee.getEmail();
 		String body = "Happy Birthday, dear %NAME%!".replace("%NAME%",
 				employee.getFirstName());

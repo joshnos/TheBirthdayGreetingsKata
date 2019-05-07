@@ -25,15 +25,16 @@ public class BirthdayService {
 	public BirthdayService(EmployeeRepository repository, EmailService mail) {
 		this.repository = repository;
 		this.mail = mail;
+		numberOfGreetingsSent = 0;
 	}
 	
 	public void sendGreetings(OurDate ourDate) throws IOException, ParseException, AddressException, MessagingException {
 		List<Employee> listOfEmployeesBornOn = repository.findEmployeesBornOn(ourDate);
-		numberOfGreetingsSent = 0;
 		for (Employee employee : listOfEmployeesBornOn) {
-			mail.sendMessage("sender@here.com", employee);
-			numberOfGreetingsSent++;
+			Greetings greetings = new Greetings(employee);
+			mail.sendMessage(greetings);
 		}
+		numberOfGreetingsSent = listOfEmployeesBornOn.size();
 	}
 
 	public static void main(String[] args) {
