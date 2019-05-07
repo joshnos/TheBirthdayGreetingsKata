@@ -19,9 +19,15 @@ import javax.mail.internet.MimeMessage;
 
 public class BirthdayService {
 	int numberOfGreetingsSent;
-
-	public void sendGreetings(EmployeeRepository repository, OurDate ourDate,
-			EmailService mail) throws IOException, ParseException, AddressException, MessagingException {
+	private EmployeeRepository repository;
+	private EmailService mail;
+	
+	public BirthdayService(EmployeeRepository repository, EmailService mail) {
+		this.repository = repository;
+		this.mail = mail;
+	}
+	
+	public void sendGreetings(OurDate ourDate) throws IOException, ParseException, AddressException, MessagingException {
 		List<Employee> listOfEmployeesBornOn = repository.findEmployeesBornOn(ourDate);
 		numberOfGreetingsSent = 0;
 		for (Employee employee : listOfEmployeesBornOn) {
@@ -33,10 +39,9 @@ public class BirthdayService {
 	public static void main(String[] args) {
 		EmailService mail = new SMTPMailService("localhost", 25); 
 		EmployeeRepository repository = new FileEmployeeRepository("employee_data.txt");
-		BirthdayService service = new BirthdayService();
+		BirthdayService service = new BirthdayService(repository, mail);
 		try {
-			service.sendGreetings(repository,
-					new OurDate("2008/10/08"), mail);
+			service.sendGreetings(new OurDate("2008/10/08"));
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

@@ -20,10 +20,10 @@ public class Main {
 			String from = request.queryParams("from");
 			String subject = request.queryParams("subject");
 			String body = request.queryParams("body");
-			BirthdayService service = new BirthdayService();
 			EmailService mail = new SMTPMailService("localhost", 1081);
 			EmployeeRepository repository = new FileEmployeeRepository("employee_data.txt");
-			service.sendGreetings(repository, new OurDate("2008/10/08"), mail);
+			BirthdayService service = new BirthdayService(repository, mail);
+			service.sendGreetings(new OurDate("2008/10/08"));
 			server.stop();
 			return "<h2>Emails sent: "+service.quantityOfGreetingsSent()+"</h2>";
 		});

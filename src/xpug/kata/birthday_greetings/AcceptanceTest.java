@@ -48,10 +48,10 @@ public class AcceptanceTest {
 
 	@SuppressWarnings("unchecked")
 	private void startBirthdayServiceFor(String employeeFileName, String date) throws Exception {
-		BirthdayService service = new BirthdayService();
 		EmailService mail = new SMTPMailService("localhost", NONSTANDARD_PORT);
 		EmployeeRepository repository = new FileEmployeeRepository(employeeFileName);
-		service.sendGreetings(repository, new OurDate(date), mail);
+		BirthdayService service = new BirthdayService(repository, mail);
+		service.sendGreetings(new OurDate(date));
 		emailIterator = server.getReceivedEmail();
 	}
 	
